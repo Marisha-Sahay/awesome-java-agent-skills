@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Checkstyle Configuration for Java Engineering Standards
+  Grounded in Google Java Style Guide, Oracle Code Conventions,
+  and Effective Java / Clean Code best practices.
+-->
+
+<module name="Checker">
+  <property name="charset" value="UTF-8"/>
+  <property name="severity" value="warning"/>
+  <property name="fileExtensions" value="java, properties, xml"/>
+
+  <!-- Checks for Whitespace in Files -->
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <!-- Line Length Enforcement (100 Characters) -->
+  <module name="LineLength">
+    <property name="fileExtensions" value="java"/>
+    <property name="max" value="100"/>
+    <property name="ignorePattern" value="^package |^import |a href|href|http://|https://|ftp://"/>
+  </module>
+
+  <module name="TreeWalker">
+
+    <!-- Source File & Structure Checks -->
+    <module name="OuterTypeFilename"/>
+    <module name="IllegalTokenText">
+      <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
+      <property name="format" value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|20|85|a0)"/>
+      <property name="message" value="Consider using special escape sequence instead of octal/unicode escapes."/>
+    </module>
+    <module name="AvoidEscapedUnicodeCharacters">
+      <property name="allowEscapesForControlCharacters" value="true"/>
+      <property name="allowByTailComment" value="true"/>
+      <property name="allowNonPrintableEscapes" value="true"/>
+    </module>
+    <module name="OneTopLevelClass"/>
+    <module name="NoLineWrap"/>
+
+    <!-- Imports Rules -->
+    <module name="AvoidStarImport">
+      <property name="allowClassImports" value="false"/>
+      <property name="allowStaticMemberImports" value="false"/>
+    </module>
+    <module name="CustomImportOrder">
+      <property name="sortImportsInGroupAlphabetically" value="true"/>
+      <property name="separateLineBetweenGroups" value="true"/>
+      <property name="customImportOrderRules" value="STATIC###THIRD_PARTY_PACKAGE"/>
+      <property name="tokens" value="IMPORT, STATIC_IMPORT"/>
+    </module>
+    <module name="RedundantImport"/>
+    <module name="UnusedImports"/>
+
+    <!-- Naming Conventions -->
+    <module name="PackageName">
+      <property name="format" value="^[a-z0-9]+(\.[a-z0-9]+)*$"/>
+      <message key="name.invalidPattern" value="Package name ''{0}'' must be lowercase alphanumeric without underscores."/>
+    </module>
+    <module name="TypeName">
+      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, RECORD_DEF"/>
+      <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+      <message key="name.invalidPattern" value="Type name ''{0}'' must follow PascalCase/UpperCamelCase."/>
+    </module>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+      <message key="name.invalidPattern" value="Method name ''{0}'' must follow lowerCamelCase."/>
+    </module>
+    <module name="MemberName">
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+      <message key="name.invalidPattern" value="Member variable ''{0}'' must follow lowerCamelCase."/>
+    </module>
+    <module name="LocalVariableName">
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+      <message key="name.invalidPattern" value="Local variable ''{0}'' must follow lowerCamelCase."/>
+    </module>
+    <module name="ConstantName">
+      <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+      <message key="name.invalidPattern" value="Constant name ''{0}'' must follow UPPER_SNAKE_CASE."/>
+    </module>
+    <module name="ParameterName">
+      <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+    </module>
+    <module name="ClassTypeParameterName">
+      <property name="format" value="(^[A-Z][0-9]?$)|([A-Z][a-zA-Z0-9]*[T]$)"/>
+    </module>
+
+    <!-- Formatting & Braces -->
+    <module name="NeedBraces"/>
+    <module name="LeftCurly">
+      <property name="option" value="eol"/>
+    </module>
+    <module name="RightCurly">
+      <property name="id" value="RightCurlySame"/>
+      <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
+    </module>
+    <module name="RightCurly">
+      <property name="id" value="RightCurlyAlone"/>
+      <property name="option" value="alone"/>
+      <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT, RECORD_DEF"/>
+    </module>
+    <module name="WhitespaceAround">
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyMethods" value="true"/>
+      <property name="allowEmptyTypes" value="true"/>
+      <property name="allowEmptyLoops" value="true"/>
+      <property name="ignoreEnhancedForColon" value="false"/>
+    </module>
+    <module name="OneStatementPerLine"/>
+    <module name="MultipleVariableDeclarations"/>
+    <module name="ArrayTypeStyle"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="FallThrough"/>
+    <module name="UpperEll"/>
+    <module name="ModifierOrder"/>
+
+    <!-- Indentation Rules (2-space base block, 4-space continuation) -->
+    <module name="Indentation">
+      <property name="basicOffset" value="2"/>
+      <property name="braceAdjustment" value="0"/>
+      <property name="caseIndent" value="2"/>
+      <property name="throwsIndent" value="4"/>
+      <property name="lineWrappingIndentation" value="4"/>
+      <property name="arrayInitIndent" value="2"/>
+    </module>
+
+    <!-- Annotations -->
+    <module name="MissingOverride"/>
+
+    <!-- Javadoc Documentation Rules -->
+    <module name="JavadocMethod">
+      <property name="accessModifiers" value="public, protected"/>
+      <property name="allowMissingParamTags" value="false"/>
+      <property name="allowMissingReturnTag" value="false"/>
+    </module>
+    <module name="JavadocParagraph"/>
+    <module name="AtclauseOrder">
+      <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
+      <property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
+    </module>
+
+  </module>
+</module>
