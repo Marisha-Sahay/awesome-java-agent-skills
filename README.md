@@ -100,6 +100,8 @@ We are actively building out the most comprehensive library of Java agent skills
 | Category | Skill | Target Java | Description |
 | :--- | :--- | :--- | :--- |
 | **Clean Code** | [`java-clean-code`](skills/clean-code/java-clean-code/SKILL.md) | Java 21 LTS | Java 21 engineering standards, Google/Oracle style, Effective Java, Top 10 Exception rules, Checkstyle & JaCoCo gates. |
+| **Spring Ecosystem** | [`spring-boot-3-expert`](skills/spring/spring-boot-3-expert/SKILL.md) | Java 17+ | Modern Spring Boot 3 applications, layered architecture, constructor injection, records for DTOs. |
+| **Testing & Quality** | [`junit5-mockito-testcontainers`](skills/testing/junit5-mockito-testcontainers/SKILL.md) | Java 17+ | Testing mastery with JUnit 5, Mockito 5+, and Testcontainers for robust AAA/BDD testing. |
 
 ### 🚀 Roadmap (Coming Soon)
 
@@ -130,6 +132,9 @@ Alongside the AI skills, we provide drop-in templates to enforce these standards
 - **[Maven Build Template](templates/quality-gates/pom.xml)**: A pre-configured `pom.xml` featuring:
   - `maven-checkstyle-plugin` bound to the `validate` phase.
   - `jacoco-maven-plugin` enforcing an 80% line and 75% branch coverage quality gate.
+- **[Gradle Build Template](templates/quality-gates/build.gradle.kts)**: A pre-configured `build.gradle.kts` featuring:
+  - `checkstyle` plugin bound to the standard build lifecycle.
+  - `jacoco` plugin enforcing an 80% line and 75% branch coverage quality gate.
 
 ---
 
