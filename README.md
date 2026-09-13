@@ -102,6 +102,7 @@ We are actively building out the most comprehensive library of Java agent skills
 | **Clean Code** | [`java-clean-code`](skills/clean-code/java-clean-code/SKILL.md) | Java 21 LTS | Java 21 engineering standards, Google/Oracle style, Effective Java, Top 10 Exception rules, Checkstyle & JaCoCo gates. |
 | **Spring Ecosystem** | [`spring-boot-3-expert`](skills/spring/spring-boot-3-expert/SKILL.md) | Java 17+ | Modern Spring Boot 3 applications, layered architecture, constructor injection, records for DTOs. |
 | **Testing & Quality** | [`junit5-mockito-testcontainers`](skills/testing/junit5-mockito-testcontainers/SKILL.md) | Java 17+ | Testing mastery with JUnit 5, Mockito 5+, and Testcontainers for robust AAA/BDD testing. |
+| **Build Tools** | [`maven-dependency-management`](skills/build-tools/maven-dependency-management/SKILL.md) | Java 17+ | Enterprise-grade Maven management: BOMs, transitive exclusions, and dependency convergence. |
 
 ### 🚀 Roadmap (Coming Soon)
 
