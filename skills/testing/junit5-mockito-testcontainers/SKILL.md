@@ -27,6 +27,16 @@ void appliesTheDiscountToTheOrderTotal() {
 
 Model money as `BigDecimal`, never `double`, and compare it with `isEqualByComparingTo`. `isEqualTo` also compares scale, so `90.0` and `90.00` are not equal under it.
 
+## Test-First in Java
+When writing the test before the code, a compile error is not the failing test: a test that doesn't compile never ran, so it shows nothing about whether its assertions can fail.
+
+1. Write the test.
+2. Add only the signatures it needs (constructor, method), with a body that returns a deliberately wrong value. Don't throw from the stub: Surefire reports an exception as `Errors: 1`, not as a failed assertion.
+3. Run the test and confirm `Failures: 1` with the assertion message you expect, such as `Expecting value to be false but was true`.
+4. Implement, then run it again and see it pass.
+
+If a stub's default value already passes the test (a stub returning `false` passes a test that expects `false`), the test can't tell the stub from the real rule: add the opposite case before implementing.
+
 ## Mocking
 Instruct the agent to avoid over-mocking. Mock external boundaries and slow dependencies, but use real domain objects. Avoid mocking simple value types or internal application logic when possible. Use Mockito 5+ for all mocking needs.
 
@@ -84,6 +94,14 @@ class OrderControllerTest {
                 .andExpect(status().isNotFound());
     }
 }
+```
+
+## Asynchronous Code
+Awaitility comes with `spring-boot-starter-test`. To assert on work done by `@Async` methods, event listeners or message consumers, poll with it instead of `Thread.sleep` or a hand-written loop:
+
+```java
+await().atMost(Duration.ofSeconds(5))
+        .untilAsserted(() -> assertThat(auditLog.entriesFor("O-200")).hasSize(1));
 ```
 
 ## Integration Tests
