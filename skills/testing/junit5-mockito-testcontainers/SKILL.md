@@ -13,17 +13,19 @@ Enforce the AAA (Arrange, Act, Assert) or BDD (Given, When, Then) pattern in all
 **Example Context:**
 ```java
 @Test
-void shouldCalculateTotalCorrectly() {
+void appliesTheDiscountToTheOrderTotal() {
     // Arrange
-    Order order = new Order(100.0, 0.1); // price, discount
-    
+    Order order = new Order(new BigDecimal("100.00"), new BigDecimal("0.10")); // price, discount rate
+
     // Act
-    double total = orderService.calculateTotal(order);
-    
+    BigDecimal total = orderService.calculateTotal(order);
+
     // Assert
-    assertThat(total).isEqualTo(90.0);
+    assertThat(total).isEqualByComparingTo("90.00");
 }
 ```
+
+Model money as `BigDecimal`, never `double`, and compare it with `isEqualByComparingTo`. `isEqualTo` also compares scale, so `90.0` and `90.00` are not equal under it.
 
 ## Mocking
 Instruct the agent to avoid over-mocking. Mock external boundaries and slow dependencies, but use real domain objects. Avoid mocking simple value types or internal application logic when possible. Use Mockito 5+ for all mocking needs.
@@ -40,14 +42,46 @@ class OrderServiceTest {
     private OrderService orderService;
 
     @Test
-    void shouldProcessPayment() {
+    void chargesTheCustomerForTheOrderAmount() {
         // Arrange
-        OrderRequest request = new OrderRequest("C123", new BigDecimal("100.0"));
-        given(paymentClient.charge(any())).willReturn(true);
+        OrderRequest request = new OrderRequest("C123", new BigDecimal("100.00"));
+        given(paymentClient.charge(any(Charge.class))).willReturn(true);
 
-        // Act & Assert
-        assertThat(orderService.process(request)).isTrue();
-        verify(paymentClient).charge(any());
+        // Act
+        boolean processed = orderService.process(request);
+
+        // Assert
+        assertThat(processed).isTrue();
+        ArgumentCaptor<Charge> charge = ArgumentCaptor.forClass(Charge.class);
+        then(paymentClient).should().charge(charge.capture());
+        assertThat(charge.getValue().customerId()).isEqualTo("C123");
+        assertThat(charge.getValue().amount()).isEqualByComparingTo("100.00");
+    }
+}
+```
+
+`verify(paymentClient).charge(any())` passes whatever amount is charged. When the arguments are what the test is about, capture them and assert their values. On paths that must not reach the boundary, such as a rejected order, assert `then(paymentClient).shouldHaveNoInteractions()`.
+
+## Mocking Spring Beans
+When only one layer is under test, prefer a test slice such as `@WebMvcTest` over `@SpringBootTest`, and replace its collaborators with `@MockitoBean` (Spring Framework 6.2+, Spring Boot 3.4+). `@MockBean` is deprecated since Spring Boot 3.4 and removed in Spring Boot 4.
+
+**Example Context:**
+```java
+@WebMvcTest(OrderController.class)
+class OrderControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockitoBean
+    private OrderService orderService;
+
+    @Test
+    void returns404WhenTheOrderDoesNotExist() throws Exception {
+        given(orderService.find("O-404")).willThrow(new OrderNotFoundException("O-404"));
+
+        mockMvc.perform(get("/api/orders/O-404"))
+                .andExpect(status().isNotFound());
     }
 }
 ```
@@ -62,18 +96,16 @@ Mandate the use of **Testcontainers** for database integration testing instead o
 class OrderRepositoryTest {
 
     @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
-    
     // tests here...
 }
 ```
 
+`@ServiceConnection` (Spring Boot 3.1+, from the `spring-boot-testcontainers` test dependency) points the datasource at the container. It replaces a `@DynamicPropertySource` method that copies the JDBC URL, username and password; keep `@DynamicPropertySource` only for properties no service connection covers.
+
+With Spring Boot 4 (Testcontainers 2), the module is `org.testcontainers:testcontainers-postgresql` and the class is `org.testcontainers.postgresql.PostgreSQLContainer`, which is no longer generic: declare `static PostgreSQLContainer postgres`.
+
 ## Frameworks
-Specify JUnit 5 (Jupiter) for the testing framework and Mockito 5+ for mocking.
+Use JUnit Jupiter (JUnit 5 with Spring Boot 3, JUnit 6 with Spring Boot 4), Mockito 5+ and AssertJ.
