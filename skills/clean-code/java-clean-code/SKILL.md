@@ -70,6 +70,7 @@ Every `.java` file must follow this exact section sequence (100-character line l
 - **Creation Patterns**: Favor static factory methods (`of()`, `from()`) or Builders for objects with >3 optional parameters. Implement Singletons using single-element `enum`.
 - **Composition over Inheritance**: Use delegation and Decorator wrappers rather than extending concrete classes.
 - **Generics (PECS)**: Use `Producer-Extends, Consumer-Super` (`Collection<? extends T>` for reading, `Collection<? super T>` for writing).
+- **Money & `BigDecimal`**: Represent money as `BigDecimal`, never `double` or `float`, and build it from strings (`new BigDecimal("0.10")`). Compare with `compareTo(...) == 0`, never `equals`: `equals` also compares scale, so `new BigDecimal("120").equals(new BigDecimal("120.00"))` is `false`.
 - **Null Safety**: Never pass or return `null` for collections/arrays (return `List.of()` or empty arrays). Use `Optional<T>` strictly for method return values (never as fields or parameters).
 
 ---
