@@ -103,6 +103,7 @@ We are actively building out the most comprehensive library of Java agent skills
 | **Spring Ecosystem** | [`spring-boot-3-expert`](skills/spring/spring-boot-3-expert/SKILL.md) | Java 17+ | Modern Spring Boot 3 applications, layered architecture, constructor injection, records for DTOs. |
 | **Testing & Quality** | [`junit5-mockito-testcontainers`](skills/testing/junit5-mockito-testcontainers/SKILL.md) | Java 17+ | Testing mastery with JUnit 5, Mockito 5+, and Testcontainers for robust AAA/BDD testing. |
 | **Build Tools** | [`maven-dependency-management`](skills/build-tools/maven-dependency-management/SKILL.md) | Java 17+ | Enterprise-grade Maven management: BOMs, transitive exclusions, and dependency convergence. |
+| **Build Tools** | [`java-build-verification`](skills/build-tools/java-build-verification/SKILL.md) | Java 17+ | Makes agents back "tests pass" and "ready to merge" with quoted Maven/Gradle output: `verify` vs `test`, single-test commands, and repeat runs before and after a flaky-test fix. |
 
 ### 🚀 Roadmap (Coming Soon)
 
