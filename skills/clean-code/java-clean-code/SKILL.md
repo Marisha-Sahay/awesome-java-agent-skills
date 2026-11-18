@@ -1,6 +1,6 @@
 ---
 name: java-clean-code
-description: Modern Java 21 LTS engineering standards, Effective Java design patterns, clean code conventions, and build quality gates.
+description: Use when writing, refactoring or reviewing Java 21 code (classes, records, sealed types, interfaces, enums, exception handling, Javadoc), or when a Java build fails Checkstyle, JaCoCo coverage or static-analysis checks.
 version: 1.0.0
 author: Marisha Sahay
 tags:

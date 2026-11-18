@@ -1,6 +1,6 @@
 ---
 name: junit5-mockito-testcontainers
-description: Guidelines for writing robust, modern Java tests using JUnit 5, Mockito, and Testcontainers.
+description: Use when writing or fixing Java tests with JUnit 5, Mockito or Testcontainers, when a test mocks domain objects or value types, or when a Spring Boot integration test runs against H2 or another in-memory database instead of the production database.
 ---
 
 # Testing Mastery Skill

@@ -1,6 +1,6 @@
 ---
 name: maven-dependency-management
-description: Guidelines for enterprise-grade Maven dependency management.
+description: Use when adding, upgrading or excluding dependencies in a Maven pom.xml, when dependency versions are hardcoded instead of coming from a BOM, or when a build fails with version conflicts, NoSuchMethodError, ClassNotFoundException or duplicate logging bindings.
 ---
 
 # Maven Dependency Management Skill

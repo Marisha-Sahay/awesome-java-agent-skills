@@ -17,12 +17,7 @@ Thank you for helping build the definitive repository of Java skills for AI agen
 ```markdown
 ---
 name: your-skill-name
-description: A concise 1-2 sentence description of what this skill does.
-version: 1.0.0
-author: Your Name
-tags:
-  - java
-  - your-tag
+description: Use when [the tasks, files, annotations or error messages that mean an agent should load this skill].
 ---
 
 # Skill Title
@@ -41,3 +36,18 @@ Brief introduction to the skill and domain context.
 ## Code Examples
 ...
 ```
+
+### Frontmatter rules
+
+`tools/validate_skills.py` enforces these, following the [Agent Skills spec](https://agentskills.io/specification):
+
+- **`name`** (required): 1-64 lowercase letters, digits and single hyphens. It must match the skill's folder name.
+- **`description`** (required): one line, at most 1024 characters (aim for under 500), starting with `Use when`.
+  - Agents read only the description when deciding whether to load a skill, so list the triggers: the kind of task, the files or annotations involved, and the error messages that signal the problem.
+  - Don't summarise the skill's rules in the description. An agent that sees a summary tends to follow it and skip the body.
+  - Quote the value if it contains `: ` or ` #`, or YAML will fail to parse it.
+- **Optional fields** are the spec's `license`, `compatibility` and `metadata`. Put anything else, such as an author or version, under `metadata`.
+
+Good: `description: Use when writing or changing Spring Boot 3 controllers, services or repositories, or when Spring code uses @Autowired field injection.`
+
+Bad: `description: Teaches an agent how to write modern Spring Boot 3 applications.` (says what it is, not when to use it)

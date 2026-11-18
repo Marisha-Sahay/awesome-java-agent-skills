@@ -1,6 +1,6 @@
 ---
 name: spring-boot-3-expert
-description: Teaches an agent how to write modern Spring Boot 3 applications.
+description: Use when writing or changing Spring Boot 3 code (controllers, services, repositories, configuration classes, request and response DTOs), or when Spring code uses @Autowired field injection, scattered @Value properties or business logic in controllers.
 ---
 
 # Spring Boot 3 Expert Skill
